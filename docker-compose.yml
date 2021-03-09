@@ -1,0 +1,32 @@
+version: '3'
+services:
+  web:
+    build: .
+    restart : always
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+    links:
+      - db
+      - postgres
+    command: python3 run.py
+
+  db:
+    image: mongo:4.4
+    hostname : mongodb
+  postgres:
+    image: postgres:13.0
+    hostname: postgres
+    environment:
+        POSTGRES_PASSWORD: "parrot2021"
+        POSTGRES_DB: parrot
+        POSTGRES_USER: "parrot"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+volumes:
+  postgres_data:
+
+
